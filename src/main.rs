@@ -53,6 +53,23 @@ pub fn min<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BT
 pub fn max<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Max(left, right)) }
 
 
+#[derive(Debug, PartialEq, Eq)]
+pub enum Answer {
+    True,
+    False,
+    Maybe,
+}
+
+impl Display for Answer {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        f.write_str(match self {
+            Answer::True  => "true",
+            Answer::False => "false",
+            Answer::Maybe => "maybe",
+        })
+    }
+}
+
 fn main() {
 
 }
