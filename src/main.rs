@@ -20,8 +20,14 @@ pub enum Token<T> where T: Display + PartialEq + Eq {
     Max(BToken<T>, BToken<T>),
 }
 
-impl <T: Display + PartialEq + Eq> Display for Token<T> {
-    fn fmt(&self, f: & mut Formatter) -> Result<(), Error> {
+impl<T: Display + PartialEq + Eq> Token<T> {
+    pub fn resolve(&self) -> Answer {
+        unimplemented!();
+    }
+}
+
+impl<T: Display + PartialEq + Eq> Display for Token<T> {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         f.write_str(&match self {
             Token::Con(value) => format!("{}", value),
             Token::Var(name) => format!("{}", name),
@@ -52,7 +58,6 @@ pub fn lte<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BT
 pub fn min<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Min(left, right)) }
 pub fn max<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Max(left, right)) }
 
-
 #[derive(Debug, PartialEq, Eq)]
 pub enum Answer {
     True,
@@ -63,7 +68,7 @@ pub enum Answer {
 impl Display for Answer {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         f.write_str(match self {
-            Answer::True  => "true",
+            Answer::True => "true",
             Answer::False => "false",
             Answer::Maybe => "maybe",
         })
@@ -71,5 +76,6 @@ impl Display for Answer {
 }
 
 fn main() {
-
+    let equation = lte(mul(con(2), var("x")), var("x"));
+    println!("{}  => {}", equation, equation.resolve());
 }
