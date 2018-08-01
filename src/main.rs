@@ -39,6 +39,20 @@ impl <T: Display + PartialEq + Eq> Display for Token<T> {
     }
 }
 
+pub fn con<T: Display + PartialEq + Eq>(value: T) -> BToken<T> { Box::new(Token::Con(value)) }
+pub fn var<T: Display + PartialEq + Eq>(name: &str) -> BToken<T> { Box::new(Token::Var(name.to_owned())) }
+pub fn neg<T: Display + PartialEq + Eq>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Neg(subject)) }
+pub fn abs<T: Display + PartialEq + Eq>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Abs(subject)) }
+pub fn add<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Add(left, right)) }
+pub fn sub<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Sub(left, right)) }
+pub fn mul<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Mul(left, right)) }
+pub fn div<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Div(left, right)) }
+pub fn gre<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Gte(left, right)) }
+pub fn lte<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Lte(left, right)) }
+pub fn min<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Min(left, right)) }
+pub fn max<T: Display + PartialEq + Eq>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Max(left, right)) }
+
+
 fn main() {
 
 }
