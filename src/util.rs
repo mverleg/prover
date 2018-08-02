@@ -6,9 +6,9 @@ use std::cmp::Ordering;
 ///
 /// Create a trait that combines all the trait bounds.
 ///
-pub trait Nr: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
+pub trait Nr: Display + Clone + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
 
-impl<T> Nr for T where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
+impl<T> Nr for T where T: Display + Clone + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
 
 
 ///
@@ -18,7 +18,7 @@ macro_rules! make_float_wrapper {
     ($name: ident, $typ: ty) => {
 
         #[allow(non_camel_case_types)]
-        #[derive(PartialEq, PartialOrd)]
+        #[derive(Debug, Clone, PartialEq, PartialOrd)]
         pub struct $name($typ);
 
         impl $name {

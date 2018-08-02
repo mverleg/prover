@@ -48,6 +48,7 @@ pub fn min<T: Nr>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Min(
 pub fn max<T: Nr>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Max(left, right)) }
 
 pub fn pos<T: Nr>(name: &str) -> BNum<T> { max(con(T::from(0)), var(name)) }
+pub fn sq<T: Nr>(subject: BNum<T>) -> BNum<T> { mul(subject.clone(), subject) }
 
 pub fn a<T: Nr>() -> BNum<T> { var("α") }
 pub fn b<T: Nr>() -> BNum<T> { var("β") }
