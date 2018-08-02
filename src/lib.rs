@@ -5,7 +5,6 @@ use std::fmt::Formatter;
 type BNum<T> = Box<Num<T>>;
 type BLogic<T> = Box<Logic<T>>;
 
-// TODO @mverleg: split into num and bool
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Num<T> where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {
     Con(T),
@@ -77,7 +76,6 @@ impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Display for Logi
 }
 
 pub fn con<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(value: T) -> BNum<T> { Box::new(Num::Con(value)) }
-pub fn pos<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BNum<T> { max(con(T::from(0)), var(name)) }
 pub fn var<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BNum<T> { Box::new(Num::Var(name.to_owned())) }
 pub fn neg<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BNum<T>) -> BNum<T> { Box::new(Num::Neg(subject)) }
 pub fn abs<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BNum<T>) -> BNum<T> { Box::new(Num::Abs(subject)) }
@@ -100,6 +98,8 @@ pub fn or<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogi
 pub fn xor<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogic<T>, right: BLogic<T>) -> BLogic<T> { Box::new(Logic::Xor(left, right)) }
 pub fn imp<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogic<T>, right: BLogic<T>) -> BLogic<T> { Box::new(Logic::Imp(left, right)) }
 
+pub fn pos<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BNum<T> { max(con(T::from(0)), var(name)) }
+
 #[derive(Debug, PartialEq, Eq)]
 pub enum Answer {
     True,
@@ -119,6 +119,25 @@ impl Display for Answer {
 
 fn main() {
     let equation = gte(mul(con(2), pos("x")), pos("x"));
-    println!("{}", equation);
-    println!("{}", equation.resolve());
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_triangle_inequality() {
+        assert_eq!(Answer::True, lte(
+            abs(plus(x, y)),
+            plus(abs(var("x")), abs(var("y")))
+            ));
+    }
+
+    #[test]
+    fn test_twice_min() {
+        assert_eq!(Answer::True, gte(
+            mul(con(2), pos("x")),
+            pos("x")
+        ));
+    }
 }
