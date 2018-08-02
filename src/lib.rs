@@ -117,25 +117,26 @@ impl Display for Answer {
     }
 }
 
-fn main() {
-    let equation = gte(mul(con(2), pos("x")), pos("x"));
-}
+pub mod logic;
+pub mod num;
+pub mod test_util;
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use super::test_util::assert_provable;
 
     #[test]
     fn test_triangle_inequality() {
-        assert_eq!(Answer::True, lte(
-            abs(plus(x, y)),
-            plus(abs(var("x")), abs(var("y")))
-            ));
+        assert_provable(lte(
+            abs(add(var("x"), var("y"))),
+            plus(abs(var("x")), abs(var("y"))),
+        ));
     }
 
     #[test]
     fn test_twice_min() {
-        assert_eq!(Answer::True, gte(
+        assert_provable(gte(
             mul(con(2), pos("x")),
             pos("x")
         ));
