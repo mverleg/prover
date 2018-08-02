@@ -5,7 +5,7 @@ use std::fmt::Formatter;
 type BToken<T> = Box<Token<T>>;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub enum Token<T> where T: Display + PartialEq + Eq + PartialOrd + Ord {
+pub enum Token<T> where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {
     Con(T),
     Var(String),
     Neg(BToken<T>),
@@ -20,13 +20,13 @@ pub enum Token<T> where T: Display + PartialEq + Eq + PartialOrd + Ord {
     Max(BToken<T>, BToken<T>),
 }
 
-impl<T: Display + PartialEq + Eq + PartialOrd + Ord> Token<T> {
+impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Token<T> {
     pub fn resolve(&self) -> Answer {
         unimplemented!();
     }
 }
 
-impl<T: Display + PartialEq + Eq + PartialOrd + Ord> Display for Token<T> {
+impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Display for Token<T> {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         f.write_str(&match self {
             Token::Con(value) => format!("{}", value),
@@ -45,19 +45,19 @@ impl<T: Display + PartialEq + Eq + PartialOrd + Ord> Display for Token<T> {
     }
 }
 
-pub fn con<T: Display + PartialEq + Eq + PartialOrd + Ord>(value: T) -> BToken<T> { Box::new(Token::Con(value)) }
-pub fn pos<T: Display + PartialEq + Eq + PartialOrd + Ord>(name: &str) -> BToken<T> { max(con(0), var(name)) }
-pub fn var<T: Display + PartialEq + Eq + PartialOrd + Ord>(name: &str) -> BToken<T> { Box::new(Token::Var(name.to_owned())) }
-pub fn neg<T: Display + PartialEq + Eq + PartialOrd + Ord>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Neg(subject)) }
-pub fn abs<T: Display + PartialEq + Eq + PartialOrd + Ord>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Abs(subject)) }
-pub fn add<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Add(left, right)) }
-pub fn sub<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Sub(left, right)) }
-pub fn mul<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Mul(left, right)) }
-pub fn div<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Div(left, right)) }
-pub fn gre<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Gte(left, right)) }
-pub fn lte<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Lte(left, right)) }
-pub fn min<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Min(left, right)) }
-pub fn max<T: Display + PartialEq + Eq + PartialOrd + Ord>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Max(left, right)) }
+pub fn con<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(value: T) -> BToken<T> { Box::new(Token::Con(value)) }
+pub fn pos<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BToken<T> { max(con(T::from(0)), var(name)) }
+pub fn var<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BToken<T> { Box::new(Token::Var(name.to_owned())) }
+pub fn neg<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Neg(subject)) }
+pub fn abs<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BToken<T>) -> BToken<T> { Box::new(Token::Abs(subject)) }
+pub fn add<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Add(left, right)) }
+pub fn sub<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Sub(left, right)) }
+pub fn mul<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Mul(left, right)) }
+pub fn div<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Div(left, right)) }
+pub fn gre<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Gte(left, right)) }
+pub fn lte<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Lte(left, right)) }
+pub fn min<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Min(left, right)) }
+pub fn max<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BToken<T>, right: BToken<T>) -> BToken<T> { Box::new(Token::Max(left, right)) }
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Answer {
