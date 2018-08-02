@@ -23,7 +23,7 @@ pub enum Logic<T> where T: Nr {
 
 impl<T: Nr> Logic<T> {
     pub fn resolve(&self) -> Answer {
-        unimplemented!();
+        Answer::Maybe
     }
 }
 
