@@ -1,6 +1,6 @@
-use Answer;
-use BLogic;
 use std::fmt::Display;
+use logic::BLogic;
+use logic::Answer;
 
 pub fn assert_provable<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(statement: BLogic<T>) {
     let res = statement.resolve();
