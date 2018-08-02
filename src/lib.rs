@@ -1,23 +1,9 @@
 use std::fmt::Display;
 use std::fmt::Error;
 use std::fmt::Formatter;
+use num::BNum;
 
-type BNum<T> = Box<Num<T>>;
 type BLogic<T> = Box<Logic<T>>;
-
-#[derive(Debug, Clone, PartialEq, Eq)]
-pub enum Num<T> where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {
-    Con(T),
-    Var(String),
-    Neg(BNum<T>),
-    Abs(BNum<T>),
-    Add(BNum<T>, BNum<T>),
-    Sub(BNum<T>, BNum<T>),
-    Mul(BNum<T>, BNum<T>),
-    Div(BNum<T>, BNum<T>),
-    Min(BNum<T>, BNum<T>),
-    Max(BNum<T>, BNum<T>),
-}
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Logic<T> where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {
@@ -40,23 +26,6 @@ impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Logic<T> {
     }
 }
 
-impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Display for Num<T> {
-    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
-        f.write_str(&match self {
-            Num::Con(value) => format!("{}", value),
-            Num::Var(name) => format!("{}", name),
-            Num::Neg(subject) => format!("-({})", subject),
-            Num::Abs(subject) => format!("|{}|", subject),
-            Num::Add(left, right) => format!("({} + {})", left, right),
-            Num::Sub(left, right) => format!("({} - {})", left, right),
-            Num::Mul(left, right) => format!("({} * {})", left, right),
-            Num::Div(left, right) => format!("({} / {})", left, right),
-            Num::Min(left, right) => format!("({} ▲ {})", left, right),
-            Num::Max(left, right) => format!("({} ▼ {})", left, right),
-        })
-    }
-}
-
 impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Display for Logic<T> {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         f.write_str(&match self {
@@ -75,17 +44,6 @@ impl<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>> Display for Logi
     }
 }
 
-pub fn con<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(value: T) -> BNum<T> { Box::new(Num::Con(value)) }
-pub fn var<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BNum<T> { Box::new(Num::Var(name.to_owned())) }
-pub fn neg<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BNum<T>) -> BNum<T> { Box::new(Num::Neg(subject)) }
-pub fn abs<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(subject: BNum<T>) -> BNum<T> { Box::new(Num::Abs(subject)) }
-pub fn add<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Add(left, right)) }
-pub fn sub<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Sub(left, right)) }
-pub fn mul<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Mul(left, right)) }
-pub fn div<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Div(left, right)) }
-pub fn min<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Min(left, right)) }
-pub fn max<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BNum<T> { Box::new(Num::Max(left, right)) }
-
 pub fn eq<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BLogic<T> { Box::new(Logic::Eq(left, right)) }
 pub fn gt<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BLogic<T> { Box::new(Logic::Gt(left, right)) }
 pub fn lt<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BNum<T>, right: BNum<T>) -> BLogic<T> { Box::new(Logic::Lt(left, right)) }
@@ -97,8 +55,6 @@ pub fn and<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLog
 pub fn or<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogic<T>, right: BLogic<T>) -> BLogic<T> { Box::new(Logic::Or(left, right)) }
 pub fn xor<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogic<T>, right: BLogic<T>) -> BLogic<T> { Box::new(Logic::Xor(left, right)) }
 pub fn imp<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(left: BLogic<T>, right: BLogic<T>) -> BLogic<T> { Box::new(Logic::Imp(left, right)) }
-
-pub fn pos<T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8>>(name: &str) -> BNum<T> { max(con(T::from(0)), var(name)) }
 
 #[derive(Debug, PartialEq, Eq)]
 pub enum Answer {
@@ -124,13 +80,15 @@ pub mod test_util;
 #[cfg(test)]
 mod tests {
     use super::*;
+    use super::num::*;
+    use super::logic::*;
     use super::test_util::assert_provable;
 
     #[test]
     fn test_triangle_inequality() {
-        assert_provable(lte(
+        assert_provable::<i32>(lte(
             abs(add(var("x"), var("y"))),
-            plus(abs(var("x")), abs(var("y"))),
+            add(abs(var("x")), abs(var("y"))),
         ));
     }
 
