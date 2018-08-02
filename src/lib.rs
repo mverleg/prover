@@ -2,6 +2,7 @@
 pub mod logic;
 pub mod num;
 pub mod test_util;
+pub mod util;
 
 #[cfg(test)]
 mod tests {

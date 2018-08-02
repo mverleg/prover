@@ -1,3 +1,7 @@
+use std::fmt::Display;
 
-// todo: type alias
+pub trait Nr: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
+
+impl<T> Nr for T where T: Display + PartialEq + Eq + PartialOrd + Ord + From<u8> {}
+
 // todo: float eq
