@@ -16,7 +16,7 @@ mod tests {
     #[test]
     fn test_pure_logic() {
         // (a and (a -> b)) -> b
-        assert_provable(imp(and(a(), imp(a(), b())), b()));
+        assert_provable::<u8, _>(imp(and(a(), imp(a(), b())), b()));
     }
 
 //    #[test]

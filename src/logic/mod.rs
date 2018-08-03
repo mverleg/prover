@@ -6,7 +6,7 @@ use std::fmt::Display;
 ///
 /// Create a trait for logic statements.
 ///
-pub trait Logic<T>: Difficulty + Display where T: Nr {
+pub trait Logic<T>: Difficulty + Display + Clone where T: Nr {
     fn solve(&mut self) -> Answer;
 }
 

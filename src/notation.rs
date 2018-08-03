@@ -21,45 +21,45 @@ pub fn not<T, L>(subject: L) -> Not<T, L> where L: Logic<T>, T: Nr{
     Not(subject, PhantomData)
 }
 
-pub fn and<T, L, R>(left: L, right: L) -> And<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
+pub fn and<T, L, R>(left: L, right: R) -> And<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     And(left, right, PhantomData)
 }
 
-pub fn or<T, L, R>(left: L, right: L) -> Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
+pub fn or<T, L, R>(left: L, right: R) -> Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     Or(left, right, PhantomData)
 }
 
-pub fn xor<T, L, R>(left: L, right: L) -> Or<T, And<T, Not<T, L>, R>, And<T, L, Not<T, R>>> where L: Logic<T>, R: Logic<T>, T: Nr {
-    or(and(not(left), right), and(left, not(right)))
+pub fn xor<T, L, R>(left: L, right: R) -> Or<T, And<T, Not<T, L>, R>, And<T, L, Not<T, R>>> where L: Logic<T>, R: Logic<T>, T: Nr {
+    or(and(not(left.clone()), right.clone()), and(left, not(right)))
 }
 
-pub fn imp<T, L, R>(left: L, right: L) -> Or<T, Not<T, L>, R> where L: Logic<T>, R: Logic<T>, T: Nr {
+pub fn imp<T, L, R>(left: L, right: R) -> Or<T, Not<T, L>, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     or(not(left), right)
 }
 
-pub fn rimp<T, L, R>(left: L, right: L) -> Or<T, L, Not<T, R>> where L: Logic<T>, R: Logic<T>, T: Nr {
+pub fn rimp<T, L, R>(left: L, right: R) -> Or<T, L, Not<T, R>> where L: Logic<T>, R: Logic<T>, T: Nr {
     or(left, not(right))
 }
 
 //
 //
-//pub fn eq<T, N>(left: N, right: N) -> Eql<T, N> where N: Num<T>, T: Nr {
+//pub fn eq<T, L, R>(left: N, right: N) -> Eql<T, L, R> where L: Num<T>, R: Num<T>, T: Nr {
 //    Eql(left, right)
 //}
 //
-//pub fn lt<T, N>(left: N, right: N) -> Lt<T, N> where N: Num<T>, T: Nr {
+//pub fn lt<T, L, R>(left: N, right: N) -> Lt<T, L, R> where L: Num<T>, R: Num<T>, T: Nr {
 //    Lt(left, right)
 //}
 //
-//pub fn gt<T, N>(left: N, right: N) -> Gt<T, N> where N: Num<T>, T: Nr {
+//pub fn gt<T, L, R>(left: N, right: N) -> Gt<T, L, R> where L: Num<T>, R: Num<T>, T: Nr {
 //    Gt(left, right)
 //}
 //
-//pub fn lte<T, N>(left: N, right: N) -> Not<T, Gt<T, N>> where N: Num<T>, T: Nr {
+//pub fn lte<T, L, R>(left: N, right: N) -> Not<T, Gt<T, L, R>> where L: Num<T>, R: Num<T>, T: Nr {
 //    Not(Gt(left, right))
 //}
 //
-//pub fn gte<T, N>(left: N, right: N) -> Not<T, Lt<T, N>> where N: Num<T>, T: Nr {
+//pub fn gte<T, L, R>(left: N, right: N) -> Not<T, Lt<T, L, R>> where L: Num<T>, R: Num<T>, T: Nr {
 //    Not(Lt(left, right))
 //}
 //
