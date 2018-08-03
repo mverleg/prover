@@ -22,6 +22,6 @@ impl<T, L> Logic<T> for Not<T, L> where L: Logic<T>, T: Nr {
 
 impl<T, L> Display for Not<T, L> where L: Logic<T>, T: Nr {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
-        f.write_str(&format!("￢({})", self.0))
+        f.write_str(&format!("￢{}", self.0))
     }
 }

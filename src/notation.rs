@@ -41,6 +41,10 @@ pub fn rimp<T, L, R>(left: L, right: R) -> Or<T, L, Not<T, R>> where L: Logic<T>
     or(left, not(right))
 }
 
+pub fn iff<T, L, R>(left: L, right: R) -> Or<T, And<T, L, R>, And<T, Not<T, L>, Not<T, R>>> where L: Logic<T>, R: Logic<T>, T: Nr {
+    or(and(left.clone(), right.clone()), and(not(left), not(right)))
+}
+
 //
 //
 //pub fn eq<T, L, R>(left: N, right: N) -> Eql<T, L, R> where L: Num<T>, R: Num<T>, T: Nr {
