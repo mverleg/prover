@@ -3,6 +3,10 @@ use std::fmt::Error;
 use std::fmt::Formatter;
 use std::cmp::Ordering;
 
+pub trait Difficulty {
+    fn difficulty(&self) -> usize;
+}
+
 ///
 /// Create a trait that combines all the trait bounds.
 ///
