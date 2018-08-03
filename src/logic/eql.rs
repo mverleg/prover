@@ -4,9 +4,10 @@ use std::fmt::{Display, Error, Formatter};
 use util::Difficulty;
 use util::Nr;
 use num::Num;
+use std::marker::PhantomData;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Eql<T, N>(pub N, pub N) where N: Num<T>, T: Nr;
+pub struct Eql<T, N>(pub N, pub N, pub PhantomData<T>) where N: Num<T>, T: Nr;
 
 impl<T, N> Difficulty for Eql<T, N> where N: Num<T>, T: Nr {
     fn difficulty(&self) -> usize {

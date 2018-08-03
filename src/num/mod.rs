@@ -1,7 +1,8 @@
 use util::Difficulty;
 use util::Nr;
+use std::fmt::Display;
 
-pub trait Num<T>: Difficulty where T: Nr {
+pub trait Num<T>: Difficulty + Display where T: Nr {
     // todo
 }
 

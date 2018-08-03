@@ -10,32 +10,39 @@ pub mod test_util;
 mod tests {
     use super::num::*;
     use super::logic::*;
+    use super::notation::*;
     use super::test_util::assert_provable;
 
     #[test]
-    fn test_numbers() {
-        assert_provable(xor(
-            // (2 * 3 + 4 > 9) xor (3 * 3 = 2 * 4)
-            gt(add(mul(con(2), con(3)), con(4)), con(9)),
-            eq(sq(con(3)), mul(con(2), con(4))),
-        ));
+    fn test_pure_logic() {
+        // (a and (a -> b)) -> b
+        assert_provable(imp(and(a(), imp(a(), b())), b()));
     }
 
-    #[test]
-    fn test_triangle_inequality() {
-        return;  // TODO: enable when implemented
-        assert_provable::<i32>(lte(
-            abs(add(var("x"), var("y"))),
-            add(abs(var("x")), abs(var("y"))),
-        ));
-    }
-
-    #[test]
-    fn test_twice_min() {
-        return;  // TODO: enable when implemented
-        assert_provable(gte(
-            mul(con(2), pos("x")),
-            pos("x")
-        ));
-    }
+//    #[test]
+//    fn test_numbers() {
+//        assert_provable(xor(
+//            // (2 * 3 + 4 > 9) xor (3 * 3 = 2 * 4)
+//            gt(add(mul(con(2), con(3)), con(4)), con(9)),
+//            eq(sq(con(3)), mul(con(2), con(4))),
+//        ));
+//    }
+//
+//    #[test]
+//    fn test_triangle_inequality() {
+//        return;  // TODO: enable when implemented
+//        assert_provable::<i32>(lte(
+//            abs(add(var("x"), var("y"))),
+//            add(abs(var("x")), abs(var("y"))),
+//        ));
+//    }
+//
+//    #[test]
+//    fn test_twice_min() {
+//        return;  // TODO: enable when implemented
+//        assert_provable(gte(
+//            mul(con(2), pos("x")),
+//            pos("x")
+//        ));
+//    }
 }

@@ -3,9 +3,10 @@ use logic::Logic;
 use std::fmt::{Display, Error, Formatter};
 use util::Difficulty;
 use util::Nr;
+use std::marker::PhantomData;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct And<T, L, R>(pub L, pub R) where L: Logic<T>, R: Logic<T>, T: Nr;
+pub struct And<T, L, R>(pub L, pub R, pub PhantomData<T>) where L: Logic<T>, R: Logic<T>, T: Nr;
 
 impl<T, L, R> Difficulty for And<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     fn difficulty(&self) -> usize {

@@ -3,9 +3,10 @@ use logic::Logic;
 use std::fmt::{Display, Error, Formatter};
 use util::Difficulty;
 use util::Nr;
+use std::marker::PhantomData;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Or<T, L, R>(pub L, pub L) where L: Logic<T>, R: Logic<T>, T: Nr;
+pub struct Or<T, L, R>(pub L, pub R, pub PhantomData<T>) where L: Logic<T>, R: Logic<T>, T: Nr;
 
 impl<T, L, R> Difficulty for Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     fn difficulty(&self) -> usize {

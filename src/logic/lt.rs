@@ -1,12 +1,13 @@
 use logic::answer::Answer;
 use logic::Logic;
+use num::Num;
 use std::fmt::{Display, Error, Formatter};
+use std::marker::PhantomData;
 use util::Difficulty;
 use util::Nr;
-use num::Num;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Lt<T, N>(pub N, pub N) where N: Num<T>, T: Nr;
+pub struct Lt<T, N>(pub N, pub N, pub PhantomData<T>) where N: Num<T>, T: Nr;
 
 impl<T, N> Difficulty for Lt<T, N> where N: Num<T>, T: Nr {
     fn difficulty(&self) -> usize {

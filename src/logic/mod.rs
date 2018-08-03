@@ -1,15 +1,18 @@
 use logic::answer::Answer;
 use util::Difficulty;
 use util::Nr;
+use std::fmt::Display;
 
 ///
 /// Create a trait for logic statements.
 ///
-pub trait Logic<T>: Difficulty where T: Nr {
+pub trait Logic<T>: Difficulty + Display where T: Nr {
     fn solve(&mut self) -> Answer;
 }
 
 pub mod answer;
+
+pub mod proposition;
 
 pub mod not;
 pub mod and;
