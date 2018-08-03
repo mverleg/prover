@@ -5,21 +5,21 @@ use util::Difficulty;
 use util::Nr;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Or<T, L>(L, L) where L: Logic<T>, T: Nr;
+pub struct Or<T, L, R>(pub L, pub L) where L: Logic<T>, R: Logic<T>, T: Nr;
 
-impl<T, L> Difficulty for Or<T, L> where L: Logic<T>, T: Nr {
+impl<T, L, R> Difficulty for Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     fn difficulty(&self) -> usize {
         1 + self.0.difficulty() + self.1.difficulty()
     }
 }
 
-impl<T, L> Logic<T> for Or<T, L> where L: Logic<T>, T: Nr {
+impl<T, L, R> Logic<T> for Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     fn solve(&mut self) -> Answer {
         Answer::Maybe
     }
 }
 
-impl<T, L> Display for Or<T, L> where T: Nr {
+impl<T, L, R> Display for Or<T, L, R> where L: Logic<T>, R: Logic<T>, T: Nr {
     fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
         f.write_str(&format!("({} ∨ {})", self.0, self.1))
     }

@@ -1,6 +1,7 @@
 
 pub mod logic;
 pub mod num;
+pub mod notation;
 pub mod util;
 pub mod test_util;
 

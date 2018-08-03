@@ -6,7 +6,7 @@ use util::Nr;
 use num::Num;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Gt<T, N>(N, N) where N: Num<T>, T: Nr;
+pub struct Gt<T, N>(pub N, pub N) where N: Num<T>, T: Nr;
 
 impl<T, N> Difficulty for Gt<T, N> where N: Num<T>, T: Nr {
     fn difficulty(&self) -> usize {
