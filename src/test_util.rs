@@ -1,8 +1,8 @@
-use logic::BLogic;
-use logic::Answer;
+use logic::Logic;
 use util::Nr;
+use logic::answer::Answer;
 
-pub fn assert_provable<T: Nr>(statement: BLogic<T>) {
+pub fn assert_provable<T, L>(statement: L) where L: Logic<T>, T: Nr {
     println!("trying to prove: {}", statement);
     let res = statement.resolve();
     if Answer::True != res {
@@ -13,7 +13,7 @@ pub fn assert_provable<T: Nr>(statement: BLogic<T>) {
     }
 }
 
-pub fn assert_disprovable<T: Nr>(statement: BLogic<T>) {
+pub fn assert_disprovable<T, L>(statement: L) where L: Logic<T>, T: Nr {
     println!("trying to disprove: {}", statement);
     let res = statement.resolve();
     if Answer::False != res {
@@ -24,7 +24,7 @@ pub fn assert_disprovable<T: Nr>(statement: BLogic<T>) {
     }
 }
 
-pub fn assert_unprovable<T: Nr>(statement: BLogic<T>) {
+pub fn assert_unprovable<T, L>(statement: L) where L: Logic<T>, T: Nr {
     println!("trying to show impossible to prove: {}", statement);
     let res = statement.resolve();
     if Answer::Maybe != res {

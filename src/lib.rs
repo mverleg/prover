@@ -1,8 +1,8 @@
 
 pub mod logic;
 pub mod num;
-pub mod test_util;
 pub mod util;
+pub mod test_util;
 
 #[cfg(test)]
 #[allow(unreachable_code)]

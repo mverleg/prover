@@ -1,8 +1,11 @@
+use logic::answer::Answer;
+use util::Difficulty;
+use util::Nr;
 
 ///
 /// Create a trait for logic statements.
 ///
-pub trait Logic: Difficulty {
+pub trait Logic<T>: Difficulty where T: Nr {
     fn solve(&mut self) -> Answer;
 }
 
