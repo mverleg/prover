@@ -6,7 +6,7 @@ use util::Nr;
 use num::Num;
 
 /// Proposition
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct Prop(pub String);
 
 impl Difficulty for Prop {

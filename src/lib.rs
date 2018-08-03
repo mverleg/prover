@@ -1,4 +1,3 @@
-
 pub mod logic;
 pub mod num;
 pub mod notation;
@@ -8,9 +7,10 @@ pub mod test_util;
 #[cfg(test)]
 #[allow(unreachable_code)]
 mod tests {
-    use super::num::*;
     use super::logic::*;
     use super::notation::*;
+    use super::num::*;
+    use super::util::f32eq;
     use super::test_util::assert_provable;
 
     #[test]
@@ -18,7 +18,7 @@ mod tests {
         // (a and (a -> b)) -> b
         // assert_provable::<(), _>(imp(and(a(), imp(a(), b())), b()));
         // (a ∧ b) → a
-        assert_provable::<i32, _>(imp(and(a(), b()), a()));
+        assert_provable::<f32eq, _>(imp(and(a(), b()), a()));
     }
 
 //    #[test]
