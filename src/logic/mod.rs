@@ -9,14 +9,14 @@ use logic::proposition::Prop;
 ///
 /// Create a trait for logic statements.
 ///
-pub enum PropNum<T, N> where N: Num<T>, T: Nr {
-    Prop(Prop),
-    Num(N),
+pub enum PropNum<'a, T> where T: Nr {
+    Prop(&'a Prop),
+    Num(&'a Num<T>),
 }
 
 pub trait Logic<T>: Difficulty + Display + Clone where T: Nr {
 
-    fn get_props_nums() -> Vec<PropNum<T>>;
+    fn get_props_nums<'a>() -> &'a Vec<PropNum<'a, T>>;
 
     fn solve(&mut self) -> Answer {
         // Get all the boolean symbols
